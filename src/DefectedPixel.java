@@ -17,15 +17,4 @@ public class DefectedPixel {
         this.col = col;
         this.color = color;
     }
-    /*
-        Method rendering Defective Pixels
-     */
-    public void render(Graphics g){
-
-        int tileX    = this.col * Pixel.PIXEL_SIZE;
-        int tileY    = this.row * Pixel.PIXEL_SIZE;
-
-        g.setColor(this.color);
-        g.fillRect(tileX, tileY, Pixel.PIXEL_SIZE-Pixel.BORDER_OFFSET,  Pixel.PIXEL_SIZE-Pixel.BORDER_OFFSET);
-    }
 }

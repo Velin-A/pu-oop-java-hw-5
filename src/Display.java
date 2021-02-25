@@ -4,16 +4,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
-    /*
-        Method, setting dimensions and functionality for the display
-     */
+/*
+  Method, setting dimensions and functionality for the display
+ */
 public class Display extends JFrame implements MouseListener {
     private int sideTileCount = 64;
-    private Object[][]figures;
+    private Object[][]pixels;
     private Object selected;
 
     public Display (){
-        this.figures = new Object[sideTileCount][sideTileCount];
+        this.pixels = new Object[sideTileCount][sideTileCount];
 
         this.setSize(600, 600);
         this.setVisible(true);
@@ -21,18 +21,21 @@ public class Display extends JFrame implements MouseListener {
         this.addMouseListener(this);
     }
 
-        /*
-            Method, checking the condition of pixels on the display
-         */
+    /*
+        Method, checking the condition of pixels on the display
+     */
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         int col = this.getFieldDimensionsBasedOnCoordinates(mouseEvent.getX());
         int row = this.getFieldDimensionsBasedOnCoordinates(mouseEvent.getY());
 
-        if(this.selected != null){
+        if(mouseEvent.getClickCount() == 1) {
 
-            if(getPixelColor() == Color.RED){
-                this.figures[row][col] = (new DefectedPixel(row, col, Color.BLACK));
+            Random definer = new Random();
+            int Corrupting = definer.nextInt(3);
+
+            if(Corrupting == 0) {
+                this.pixels[row][col] = new DefectedPixel(row, col, Color.BLACK);
                 this.repaint();
             }
         }
@@ -78,20 +81,6 @@ public class Display extends JFrame implements MouseListener {
 
         return rand.nextInt(3);
     }
-    /*
-        Method setting the status of the pixel to Defective if the number generated in
-        getPixelStatus was 0
-     */
-    public boolean hasDefectedPixel(int row, int col){
-        return getPixelStatus() == 0;
-    }
-    /*
-       Method setting the status of the pixel to Almost Defective if the number generated in
-       getPixelStatus was 1
-    */
-    public boolean hasAlmostDefectedPixel(){
-        return getPixelStatus() == 1;
-    }
 
     /*
         Method rendering the "Display"
@@ -103,27 +92,6 @@ public class Display extends JFrame implements MouseListener {
     }
 
     /*
-        Method rendering Defected pixels
-    */
-    public void renderDefectedPixel(Graphics g, int row, int col){
-        if(this.hasDefectedPixel(row, col)){
-            DefectedPixel pixel = new DefectedPixel(row, col, Color.BLACK);
-            pixel.render(g);
-        }
-
-    }
-    /*
-        Method rendering Almost Defected pixels
-     */
-    public void renderAlmostDefectedPixel(Graphics g, int row, int col){
-        if(this.hasAlmostDefectedPixel()){
-            AlmostDefectedPixel pixel = new AlmostDefectedPixel(row, col, Color.ORANGE);
-            pixel.render(g);
-        }
-
-    }
-
-    /*
         Method painting the application
      */
     public void paint(Graphics g) {
@@ -132,9 +100,6 @@ public class Display extends JFrame implements MouseListener {
 
         for (int row = 0; row < 64; row++) {
             for (int col = 0; col < 64; col++) {
-
-                this.renderDefectedPixel(g, row, col);
-                this.renderAlmostDefectedPixel(g, row, col);
                 this.renderDisplay(g, row, col);
             }
         }
