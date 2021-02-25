@@ -8,7 +8,7 @@ public class Pixel {
     private Color color;
 
     /*
-        Constructor for Tile
+        Constructor for Pixels
         @param row row coordinate
         @param col col coordinate
         @param color tile color
@@ -18,8 +18,9 @@ public class Pixel {
         this.col      = col;
         this.color    = color;
     }
+
     /*
-        Method rendering the tiles
+        Method rendering the Pixels
      */
     public void render(Graphics g){
 
